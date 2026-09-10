@@ -172,7 +172,10 @@ func TestLedgerBalanceaViaAPI(t *testing.T) {
 
 	req, _ := http.NewRequest(http.MethodGet, srv.URL+"/v1/payment-intents/"+id+"/ledger", nil)
 	req.Header.Set("X-Merchant-Id", "merch_1")
-	res, _ := srv.Client().Do(req)
+	res, err := srv.Client().Do(req)
+	if err != nil {
+		t.Fatalf("do: %v", err)
+	}
 	defer res.Body.Close()
 
 	var payload struct {
